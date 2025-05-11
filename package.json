@@ -1,10 +1,16 @@
 {
   "name": "teajs-redis-client",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "description": "Redis client for TeaJS",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
   "scripts": {
-    "test": "node test/test-redis.js"
+    "test": "node dist/test/test-redis.js",
+    "test:mock": "jest test/mock.test.ts",
+    "test:integration": "jest --config jest.config.js",
+    "build": "tsc",
+    "lint": "eslint . --ext .ts,.js",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "redis",
@@ -26,6 +32,17 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "node-unix-dgram": "^0.2.0"
+    "unix-dgram": "^2.0.6"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.17",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
+    "eslint": "^9.26.0",
+    "jest": "^29.7.0",
+    "testcontainers": "^10.25.0",
+    "ts-jest": "^29.3.2",
+    "typescript": "^5.8.3"
   }
 }

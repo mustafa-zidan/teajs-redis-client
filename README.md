@@ -1,4 +1,5 @@
 # teajs-redis-client
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/mustafa-zidan/teajs-redis-client?utm_source=oss&utm_medium=github&utm_campaign=mustafa-zidan%2Fteajs-redis-client&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 *Redis client for TeaJS*
 
@@ -42,19 +43,23 @@ npm install teajs-redis-client
 
 ### Basic Example
 
-```javascript
-var Redis = require('teajs-redis-client').Redis; 
+```typescript
+// Using CommonJS
+const { Redis } = require('teajs-redis-client');
+
+// Or using ES modules with TypeScript
+import { Redis } from 'teajs-redis-client';
 
 // Create a new Redis connection using Unix Domain Socket
 // Both 'password' and 'pw' parameters are supported for specifying the Redis password
-var redis = new Redis({
+const redis = new Redis({
     socketPath: '/tmp/redis.sock', // Path to Redis Unix Domain Socket
     password: config.redis.pw, // or use 'pw' directly
     db: config.redis.db
 });
 
 // Execute a Redis command
-var keys = redis.query('keys *');
+const keys = redis.query('keys *');
 system.stdout.writeLine(redis.status);
 
 // Display results
@@ -68,45 +73,51 @@ redis.disconnect();
 
 #### String Operations
 
-```javascript
+```typescript
 // Set a string value
 redis.query('SET user:1:name "John Doe"');
 
 // Get a string value
-var name = redis.query('GET user:1:name');
-system.stdout.writeLine(name); // "John Doe"
+const name = redis.query('GET user:1:name');
+system.stdout.writeLine(name?.[0] || ''); // "John Doe"
 
 // Set multiple values
 redis.query('MSET user:1:email "john@example.com" user:1:age "30"');
 
 // Get multiple values
-var values = redis.query('MGET user:1:name user:1:email user:1:age');
-system.stdout.writeLine(values.join(", ")); // "John Doe, john@example.com, 30"
+const values = redis.query('MGET user:1:name user:1:email user:1:age');
+if (values) {
+  system.stdout.writeLine(values.join(", ")); // "John Doe, john@example.com, 30"
+}
 ```
 
 #### Hash Operations
 
-```javascript
+```typescript
 // Set hash fields
 redis.query('HSET user:1 name "John Doe" email "john@example.com" age "30"');
 
 // Get all hash fields
-var userInfo = redis.query('HGETALL user:1');
-for (var i = 0; i < userInfo.length; i += 2) {
-    system.stdout.writeLine(userInfo[i] + ": " + userInfo[i+1]);
+const userInfo = redis.query('HGETALL user:1');
+if (userInfo) {
+  for (let i = 0; i < userInfo.length; i += 2) {
+    system.stdout.writeLine(`${userInfo[i]}: ${userInfo[i+1]}`);
+  }
 }
 ```
 
 #### List Operations
 
-```javascript
+```typescript
 // Push items to a list
 redis.query('LPUSH messages "Hello"');
 redis.query('LPUSH messages "World"');
 
 // Get list items
-var messages = redis.query('LRANGE messages 0 -1');
-system.stdout.writeLine(messages.join(" ")); // "World Hello"
+const messages = redis.query('LRANGE messages 0 -1');
+if (messages) {
+  system.stdout.writeLine(messages.join(" ")); // "World Hello"
+}
 ```
 
 ## API Documentation
@@ -198,7 +209,21 @@ var redis = new Redis({
 
 ## Version History
 
-- **v0.4.0** (Current)
+- **v0.6.0** (Current)
+  - Fully migrated the codebase to TypeScript
+  - Moved from CommonJS to ES modules
+  - Enhanced type definitions with proper interfaces
+  - Improved error handling with type assertions
+  - Added comprehensive TypeScript examples
+  - Updated build process for TypeScript compilation
+
+- **v0.5.0**
+  - Added TypeScript support with type definitions
+  - Added integration testing with testcontainers
+  - Improved development experience with linting and build tools
+  - Enhanced documentation for TypeScript and testing
+
+- **v0.4.0**
   - Switched from 'socket' to 'node-unix-dgram' for Unix Domain Socket support
   - Added support for connecting to Redis via Unix Domain Sockets using the 'socketPath' parameter
   - Improved error handling and connection management
@@ -215,13 +240,77 @@ var redis = new Redis({
 
 ## Testing
 
-To run the tests:
+### Legacy Tests
+
+To run the legacy tests that require a Redis server running on the default Unix socket path:
 
 ```bash
 npm test
 ```
 
-The test suite verifies basic functionality and compatibility with Redis server.
+### Integration Tests with Testcontainers
+
+To run integration tests using testcontainers (requires Docker):
+
+```bash
+npm run test:integration
+```
+
+These tests automatically start a Redis container, run the tests against it, and then stop the container.
+
+### Development
+
+This library is fully written in TypeScript, providing several benefits:
+
+- **Type Safety**: Get compile-time type checking to catch errors early
+- **Better IDE Support**: Enjoy autocompletion, inline documentation, and intelligent code navigation
+- **Self-Documenting Code**: Types serve as documentation that's always up-to-date
+- **Improved Maintainability**: Easier refactoring and code understanding
+
+#### Using with TypeScript
+
+```typescript
+import { Redis, RedisOptions } from 'teajs-redis-client';
+
+// Type-safe configuration
+const options: RedisOptions = {
+  socketPath: '/tmp/redis.sock',
+  password: 'your-password',
+  db: 0,
+  debug: true
+};
+
+const redis = new Redis(options);
+
+// Type-safe response handling
+const result = redis.query('GET mykey');
+if (result && result.length > 0) {
+  const value = result[0];
+  console.log(`Value: ${value}`);
+}
+
+redis.disconnect();
+```
+
+#### Development Workflow
+
+For development with TypeScript:
+
+```bash
+# Install dependencies
+npm install
+
+# Type check the code
+npm run build
+
+# Lint the code
+npm run lint
+
+# Run tests
+npm test           # Legacy tests
+npm run test:mock  # Mock tests
+npm run test:integration # Integration tests with testcontainers
+```
 
 ## Contributing
 

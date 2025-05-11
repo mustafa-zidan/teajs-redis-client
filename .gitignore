@@ -38,3 +38,12 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# TypeScript build artifacts
+dist/
+*.tsbuildinfo
+coverage/
+.nyc_output/
+
+# Jest
+jest-report/
