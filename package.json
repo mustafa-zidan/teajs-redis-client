@@ -1,0 +1,31 @@
+{
+  "name": "teajs-redis-client",
+  "version": "0.4.0",
+  "description": "Redis client for TeaJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test-redis.js"
+  },
+  "keywords": [
+    "redis",
+    "teajs",
+    "client",
+    "database"
+  ],
+  "author": "Tamer Rizk, Inficron Inc.",
+  "contributors": [
+    "Tamer Rizk, Inficron Inc.",
+    "Mustafa Zidan Abuelfadl"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mustafa-zidan/teajs-redis-client.git"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "node-unix-dgram": "^0.2.0"
+  }
+}
