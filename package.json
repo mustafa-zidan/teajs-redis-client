@@ -1,0 +1,48 @@
+{
+  "name": "teajs-redis-client",
+  "version": "0.6.0",
+  "description": "Redis client for TeaJS",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "node dist/test/test-redis.js",
+    "test:mock": "jest test/mock.test.ts",
+    "test:integration": "jest --config jest.config.js",
+    "build": "tsc",
+    "lint": "eslint . --ext .ts,.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "redis",
+    "teajs",
+    "client",
+    "database"
+  ],
+  "author": "Tamer Rizk, Inficron Inc.",
+  "contributors": [
+    "Tamer Rizk, Inficron Inc.",
+    "Mustafa Zidan Abuelfadl"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mustafa-zidan/teajs-redis-client.git"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "unix-dgram": "^2.0.6"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.17",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
+    "eslint": "^9.26.0",
+    "jest": "^29.7.0",
+    "testcontainers": "^10.25.0",
+    "ts-jest": "^29.3.2",
+    "typescript": "^5.8.3"
+  }
+}
